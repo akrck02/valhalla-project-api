@@ -4,15 +4,14 @@ go 1.22
 
 require (
 	github.com/akrck02/valhalla-api-common v0.0.9-20240526163041-dev
-	github.com/akrck02/valhalla-core-dal v0.0.10-20240526160524-dev
-	github.com/akrck02/valhalla-core-sdk v0.0.11-20240526123155-dev
+	github.com/akrck02/valhalla-core-dal v0.0.10-20240709230555-feature-project
+	github.com/akrck02/valhalla-core-sdk v0.0.11-20240709230337-feature-project
 	github.com/gin-gonic/gin v1.10.0
 )
 
 require (
 	github.com/bytedance/sonic v1.11.7 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
-	github.com/chenzhuoyu/base64x v0.0.0-20221115062448-fe3a3abad311 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect
 	github.com/cloudwego/iasm v0.2.0 // indirect
 	github.com/gabriel-vasile/mimetype v1.4.4 // indirect
@@ -28,6 +27,7 @@ require (
 	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/klauspost/compress v1.17.8 // indirect
 	github.com/klauspost/cpuid/v2 v2.2.7 // indirect
+	github.com/kr/text v0.2.0 // indirect
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
