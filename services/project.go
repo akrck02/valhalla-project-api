@@ -1,7 +1,6 @@
 package services
 
 import (
-	server "github.com/akrck02/valhalla-api-common/http"
 	permissiondal "github.com/akrck02/valhalla-core-dal/services/permission"
 	projectdal "github.com/akrck02/valhalla-core-dal/services/project"
 	"github.com/akrck02/valhalla-core-sdk/http"
@@ -11,11 +10,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Error) {
+func CreateProject(context *systemmodels.ValhallaContext) (*systemmodels.Response, *systemmodels.Error) {
 
-	project := &projectmodels.Project{}
-	err := c.ShouldBindJSON(project)
-	if err != nil {
+	project := context.Request.Body.(*projectmodels.Project)
+
+	if project == nil {
 		return nil, &systemmodels.Error{
 			Status:  http.HTTP_STATUS_BAD_REQUEST,
 			Error:   valerror.INVALID_REQUEST,
@@ -23,7 +22,7 @@ func CreateProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Er
 		}
 	}
 
-	perr := projectdal.CreateProject(project)
+	perr := projectdal.CreateProject(context.Database.Client, project)
 	if perr != nil {
 		return nil, perr
 	}
@@ -34,21 +33,12 @@ func CreateProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Er
 	}, nil
 }
 
-func DeleteProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Error) {
+func DeleteProject(context *systemmodels.ValhallaContext) (*systemmodels.Response, *systemmodels.Error) {
 
-	request := server.GetRequestMetadata(c)
-	project := &projectmodels.Project{}
-	err := c.ShouldBindJSON(project)
-	if err != nil {
-		return nil, &systemmodels.Error{
-			Status:  http.HTTP_STATUS_BAD_REQUEST,
-			Error:   valerror.INVALID_REQUEST,
-			Message: "Invalid request",
-		}
-	}
+	project := context.Request.Body.(*projectmodels.Project)
 
 	// get if the user is the owner of the project to enable deletion
-	canDelete := permissiondal.CanDeleteProject(request.User, &projectmodels.Project{ID: project.ID})
+	canDelete := permissiondal.CanDeleteProject(context.Request.User, &projectmodels.Project{ID: project.ID})
 	if !canDelete {
 		return nil, &systemmodels.Error{
 			Status:  http.HTTP_STATUS_FORBIDDEN,
@@ -57,7 +47,7 @@ func DeleteProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Er
 		}
 	}
 
-	perr := projectdal.DeleteProject(project)
+	perr := projectdal.DeleteProject(context.Database.Client, project)
 	if perr != nil {
 		return nil, perr
 	}
@@ -68,23 +58,11 @@ func DeleteProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Er
 	}, nil
 }
 
-// Edit user HTTP API endpoint
-//
-// [param] c | *gin.Context: context
-func EditProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Error) {
+func EditProject(context *systemmodels.ValhallaContext) (*systemmodels.Response, *systemmodels.Error) {
 
-	//request := server.GetRequestMetadata(c)
+	projectToEdit := context.Request.Body.(*projectmodels.Project)
 
-	projectToEdit := &projectmodels.Project{}
-	err := c.ShouldBindJSON(projectToEdit)
-	if err != nil {
-		return nil, &systemmodels.Error{
-			Status:  http.HTTP_STATUS_BAD_REQUEST,
-			Error:   valerror.INVALID_REQUEST,
-			Message: "Invalid request",
-		}
-	}
-	_, perr := projectdal.GetProject(projectToEdit)
+	_, perr := projectdal.GetProject(context.Database.Client, projectToEdit)
 	// get if request user is the owner of the project
 
 	if perr != nil {
@@ -95,16 +73,16 @@ func EditProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Erro
 		}
 	}
 
-	// canEdit := permissiondal.CanEditUser(request.User, userToEdit)
-	// if !canEdit {
-	// 	return nil, &models.Error{
-	// 		Status:  http.HTTP_STATUS_FORBIDDEN,
-	// 		Error:   error.ACCESS_DENIED,
-	// 		Message: "Cannot edit user",
-	// 	}
-	// }
+	canEdit := permissiondal.CanEditProject(context.Database.Client, context.Request.User, projectToEdit)
+	if !canEdit {
+		return nil, &systemmodels.Error{
+			Status:  http.HTTP_STATUS_FORBIDDEN,
+			Error:   valerror.ACCESS_DENIED,
+			Message: "Cannot edit user",
+		}
+	}
 
-	updateErr := projectdal.EditProject(projectToEdit)
+	updateErr := projectdal.EditProject(context.Database.Client, projectToEdit)
 	if updateErr != nil {
 		return nil, &systemmodels.Error{
 			Status:  http.HTTP_STATUS_BAD_REQUEST,
@@ -115,6 +93,6 @@ func EditProjectHttp(c *gin.Context) (*systemmodels.Response, *systemmodels.Erro
 
 	return &systemmodels.Response{
 		Code:     http.HTTP_STATUS_OK,
-		Response: gin.H{"message": "User updated"},
+		Response: systemmodels.Message{Message: "User updated"},
 	}, nil
 }

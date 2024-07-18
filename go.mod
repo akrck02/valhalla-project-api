@@ -3,9 +3,9 @@ module github.com/akrck02/valhalla-project-api
 go 1.22
 
 require (
-	github.com/akrck02/valhalla-api-common v0.0.9-20240526163041-dev
-	github.com/akrck02/valhalla-core-dal v0.0.10-20240709230555-feature-project
-	github.com/akrck02/valhalla-core-sdk v0.0.11-20240709230337-feature-project
+	github.com/akrck02/valhalla-api-common v0.0.10-20240717232712-dev
+	github.com/akrck02/valhalla-core-dal v0.0.13-20240717230213-dev
+	github.com/akrck02/valhalla-core-sdk v0.0.11-20240709205701-dev
 	github.com/gin-gonic/gin v1.10.0
 )
 
