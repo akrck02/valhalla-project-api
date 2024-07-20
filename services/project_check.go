@@ -52,3 +52,8 @@ func EditProjectCheck(context *systemmodels.ValhallaContext, gin *gin.Context) *
 	context.Request.Body = project
 	return nil
 }
+
+func GetProjectCheck(context *systemmodels.ValhallaContext, gin *gin.Context) *systemmodels.Error {
+
+	return nil
+}

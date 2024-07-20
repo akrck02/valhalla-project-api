@@ -63,8 +63,6 @@ func EditProject(context *systemmodels.ValhallaContext) (*systemmodels.Response,
 	projectToEdit := context.Request.Body.(*projectmodels.Project)
 
 	_, perr := projectdal.GetProject(context.Database.Client, projectToEdit)
-	// get if request user is the owner of the project
-
 	if perr != nil {
 		return nil, &systemmodels.Error{
 			Status:  http.HTTP_STATUS_BAD_REQUEST,
@@ -73,7 +71,7 @@ func EditProject(context *systemmodels.ValhallaContext) (*systemmodels.Response,
 		}
 	}
 
-	canEdit := permissiondal.CanEditProject(context.Database.Client, context.Request.User, projectToEdit)
+	canEdit := permissiondal.CanEditProject(context.Request.User, projectToEdit)
 	if !canEdit {
 		return nil, &systemmodels.Error{
 			Status:  http.HTTP_STATUS_FORBIDDEN,
@@ -94,5 +92,24 @@ func EditProject(context *systemmodels.ValhallaContext) (*systemmodels.Response,
 	return &systemmodels.Response{
 		Code:     http.HTTP_STATUS_OK,
 		Response: systemmodels.Message{Message: "User updated"},
+	}, nil
+}
+
+func GetProject(context *systemmodels.ValhallaContext) (*systemmodels.Response, *systemmodels.Error) {
+
+	id := context.Request.Params.(*projectmodels.Project).ID
+
+	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{ID: id})
+	if perr != nil {
+		return nil, &systemmodels.Error{
+			Status:  http.HTTP_STATUS_BAD_REQUEST,
+			Error:   valerror.PROJECT_NOT_FOUND,
+			Message: "Project not found",
+		}
+	}
+
+	return &systemmodels.Response{
+		Code:     http.HTTP_STATUS_OK,
+		Response: project,
 	}, nil
 }

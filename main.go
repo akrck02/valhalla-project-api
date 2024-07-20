@@ -9,11 +9,13 @@ import (
 	"github.com/akrck02/valhalla-project-api/services"
 )
 
+const ENVIROMENT_FILE = ".env"
+
 // main function
 func main() {
 
-	config := configuration.LoadConfiguration(".env")
-	databaseConfig.LoadConfiguration(".env")
+	config := configuration.LoadConfiguration(ENVIROMENT_FILE)
+	databaseConfig.LoadConfiguration(ENVIROMENT_FILE)
 
 	apicommon.Start(
 		config,
