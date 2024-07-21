@@ -4,18 +4,17 @@ import (
 	permissiondal "github.com/akrck02/valhalla-core-dal/services/permission"
 	projectdal "github.com/akrck02/valhalla-core-dal/services/project"
 	"github.com/akrck02/valhalla-core-sdk/http"
+	apimodels "github.com/akrck02/valhalla-core-sdk/models/api"
 	projectmodels "github.com/akrck02/valhalla-core-sdk/models/project"
-	systemmodels "github.com/akrck02/valhalla-core-sdk/models/system"
 	"github.com/akrck02/valhalla-core-sdk/valerror"
-	"github.com/gin-gonic/gin"
 )
 
-func CreateProject(context *systemmodels.ValhallaContext) (*systemmodels.Response, *systemmodels.Error) {
+func CreateProject(context *apimodels.ApiContext) (*apimodels.Response, *apimodels.Error) {
 
 	project := context.Request.Body.(*projectmodels.Project)
 
 	if project == nil {
-		return nil, &systemmodels.Error{
+		return nil, &apimodels.Error{
 			Status:  http.HTTP_STATUS_BAD_REQUEST,
 			Error:   valerror.INVALID_REQUEST,
 			Message: "Invalid request",
@@ -27,20 +26,20 @@ func CreateProject(context *systemmodels.ValhallaContext) (*systemmodels.Respons
 		return nil, perr
 	}
 
-	return &systemmodels.Response{
+	return &apimodels.Response{
 		Code:     http.HTTP_STATUS_OK,
 		Response: "pong",
 	}, nil
 }
 
-func DeleteProject(context *systemmodels.ValhallaContext) (*systemmodels.Response, *systemmodels.Error) {
+func DeleteProject(context *apimodels.ApiContext) (*apimodels.Response, *apimodels.Error) {
 
 	project := context.Request.Body.(*projectmodels.Project)
 
 	// get if the user is the owner of the project to enable deletion
-	canDelete := permissiondal.CanDeleteProject(context.Request.User, &projectmodels.Project{ID: project.ID})
+	canDelete := permissiondal.CanDeleteProject(context.Trazability.User, &projectmodels.Project{ID: project.ID})
 	if !canDelete {
-		return nil, &systemmodels.Error{
+		return nil, &apimodels.Error{
 			Status:  http.HTTP_STATUS_FORBIDDEN,
 			Error:   valerror.ACCESS_DENIED,
 			Message: "Access denied: Cannot delete project",
@@ -52,28 +51,30 @@ func DeleteProject(context *systemmodels.ValhallaContext) (*systemmodels.Respons
 		return nil, perr
 	}
 
-	return &systemmodels.Response{
-		Code:     http.HTTP_STATUS_OK,
-		Response: gin.H{"message": "Project deleted"},
+	return &apimodels.Response{
+		Code: http.HTTP_STATUS_OK,
+		Response: apimodels.Message{
+			Message: "Project deleted",
+		},
 	}, nil
 }
 
-func EditProject(context *systemmodels.ValhallaContext) (*systemmodels.Response, *systemmodels.Error) {
+func EditProject(context *apimodels.ApiContext) (*apimodels.Response, *apimodels.Error) {
 
 	projectToEdit := context.Request.Body.(*projectmodels.Project)
 
 	_, perr := projectdal.GetProject(context.Database.Client, projectToEdit)
 	if perr != nil {
-		return nil, &systemmodels.Error{
+		return nil, &apimodels.Error{
 			Status:  http.HTTP_STATUS_BAD_REQUEST,
 			Error:   valerror.PROJECT_NOT_FOUND,
 			Message: "Project not found",
 		}
 	}
 
-	canEdit := permissiondal.CanEditProject(context.Request.User, projectToEdit)
+	canEdit := permissiondal.CanEditProject(context.Trazability.User, projectToEdit)
 	if !canEdit {
-		return nil, &systemmodels.Error{
+		return nil, &apimodels.Error{
 			Status:  http.HTTP_STATUS_FORBIDDEN,
 			Error:   valerror.ACCESS_DENIED,
 			Message: "Cannot edit user",
@@ -82,33 +83,33 @@ func EditProject(context *systemmodels.ValhallaContext) (*systemmodels.Response,
 
 	updateErr := projectdal.EditProject(context.Database.Client, projectToEdit)
 	if updateErr != nil {
-		return nil, &systemmodels.Error{
+		return nil, &apimodels.Error{
 			Status:  http.HTTP_STATUS_BAD_REQUEST,
 			Error:   valerror.INVALID_REQUEST,
 			Message: "Invalid request",
 		}
 	}
 
-	return &systemmodels.Response{
+	return &apimodels.Response{
 		Code:     http.HTTP_STATUS_OK,
-		Response: systemmodels.Message{Message: "User updated"},
+		Response: apimodels.Message{Message: "User updated"},
 	}, nil
 }
 
-func GetProject(context *systemmodels.ValhallaContext) (*systemmodels.Response, *systemmodels.Error) {
+func GetProject(context *apimodels.ApiContext) (*apimodels.Response, *apimodels.Error) {
 
 	id := context.Request.Params.(*projectmodels.Project).ID
 
 	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{ID: id})
 	if perr != nil {
-		return nil, &systemmodels.Error{
+		return nil, &apimodels.Error{
 			Status:  http.HTTP_STATUS_BAD_REQUEST,
 			Error:   valerror.PROJECT_NOT_FOUND,
 			Message: "Project not found",
 		}
 	}
 
-	return &systemmodels.Response{
+	return &apimodels.Response{
 		Code:     http.HTTP_STATUS_OK,
 		Response: project,
 	}, nil

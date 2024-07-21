@@ -3,8 +3,8 @@ package main
 import (
 	apicommon "github.com/akrck02/valhalla-api-common"
 	"github.com/akrck02/valhalla-api-common/configuration"
-	"github.com/akrck02/valhalla-api-common/models"
 	databaseConfig "github.com/akrck02/valhalla-core-dal/configuration"
+	apimodels "github.com/akrck02/valhalla-core-sdk/models/api"
 
 	"github.com/akrck02/valhalla-project-api/services"
 )
@@ -19,7 +19,7 @@ func main() {
 
 	apicommon.Start(
 		config,
-		[]models.Endpoint{
+		[]apimodels.Endpoint{
 			services.CreateProjectEndpoint,
 			services.DeleteProjectEndpoint,
 			services.EditProjectEndpooint,

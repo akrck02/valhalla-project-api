@@ -1,42 +1,42 @@
 package services
 
 import (
-	"github.com/akrck02/valhalla-api-common/models"
 	"github.com/akrck02/valhalla-core-sdk/http"
+	apimodels "github.com/akrck02/valhalla-core-sdk/models/api"
 )
 
-var CreateProjectEndpoint = models.Endpoint{
-	Path:     "create",
+var CreateProjectEndpoint = apimodels.Endpoint{
+	Path:     "",
 	Method:   http.HTTP_METHOD_POST,
 	Checks:   CreateProjectCheck,
 	Listener: CreateProject,
 	Database: true,
-	Secured:  false,
+	Secured:  true,
 }
 
-var DeleteProjectEndpoint = models.Endpoint{
-	Path:     "delete",
+var DeleteProjectEndpoint = apimodels.Endpoint{
+	Path:     "",
 	Method:   http.HTTP_METHOD_DELETE,
 	Checks:   DeleteProjectCheck,
 	Listener: DeleteProject,
 	Database: true,
-	Secured:  false,
+	Secured:  true,
 }
 
-var EditProjectEndpooint = models.Endpoint{
-	Path:     "edit",
-	Method:   http.HTTP_METHOD_PUT,
+var EditProjectEndpooint = apimodels.Endpoint{
+	Path:     "",
+	Method:   http.HTTP_METHOD_PATCH,
 	Checks:   EditProjectCheck,
 	Listener: EditProject,
 	Database: true,
-	Secured:  false,
+	Secured:  true,
 }
 
-var GetProjectEndpoint = models.Endpoint{
-	Path:     "get",
+var GetProjectEndpoint = apimodels.Endpoint{
+	Path:     "",
 	Method:   http.HTTP_METHOD_GET,
 	Checks:   GetProjectCheck,
 	Listener: GetProject,
 	Database: true,
-	Secured:  false,
+	Secured:  true,
 }
