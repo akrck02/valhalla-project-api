@@ -4,8 +4,9 @@ import (
 	"io"
 	"net/http"
 
+	permissiondal "github.com/akrck02/valhalla-core-dal/services/permission"
+	projectdal "github.com/akrck02/valhalla-core-dal/services/project"
 	apierror "github.com/akrck02/valhalla-core-sdk/error"
-	"github.com/akrck02/valhalla-core-sdk/log"
 	apimodels "github.com/akrck02/valhalla-core-sdk/models/api"
 	projectmodels "github.com/akrck02/valhalla-core-sdk/models/project"
 	"github.com/akrck02/valhalla-core-sdk/utils"
@@ -30,10 +31,29 @@ func CreateProjectCheck(context *apimodels.ApiContext) *apimodels.Error {
 
 func DeleteProjectCheck(context *apimodels.ApiContext) *apimodels.Error {
 
-	project := &projectmodels.Project{}
-	err := utils.ParseJson(context.Request.Body.(io.Reader), project)
-	if err != nil {
+	id := context.Request.Params["id"]
+
+	if id == "" {
 		return INVALID_REQUEST
+	}
+
+	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{ID: id})
+	if perr != nil {
+		return &apimodels.Error{
+			Status:  http.StatusNotFound,
+			Error:   apierror.ProjectNotFound,
+			Message: "Project not found",
+		}
+	}
+
+	// get if the user is the owner of the project to enable deletion
+	canDelete := permissiondal.CanDeleteProject(context.Trazability.User, project)
+	if !canDelete {
+		return &apimodels.Error{
+			Status:  http.StatusForbidden,
+			Error:   apierror.AccessDenied,
+			Message: "Access denied: Cannot delete project",
+		}
 	}
 
 	context.Request.Body = project
@@ -48,23 +68,52 @@ func EditProjectCheck(context *apimodels.ApiContext) *apimodels.Error {
 		return INVALID_REQUEST
 	}
 
+	databaseProject, perr := projectdal.GetProject(context.Database.Client, project)
+	if perr != nil {
+		return &apimodels.Error{
+			Status:  http.StatusBadRequest,
+			Error:   apierror.ProjectNotFound,
+			Message: "Project not found",
+		}
+	}
+
+	canEdit := permissiondal.CanEditProject(context.Trazability.User, databaseProject)
+	if !canEdit {
+		return &apimodels.Error{
+			Status:  http.StatusForbidden,
+			Error:   apierror.AccessDenied,
+			Message: "Access denied: Cannot edit project",
+		}
+	}
+
 	context.Request.Body = project
 	return nil
 }
 
 func GetProjectCheck(context *apimodels.ApiContext) *apimodels.Error {
 
-	urlValues := &map[string]string{}
+	id := context.Request.Params["id"]
 
-	err := utils.ParseJson(context.Request.Body.(io.Reader), urlValues)
-
-	if err != nil {
-		log.Error(err.Error())
+	if id == "" {
 		return INVALID_REQUEST
 	}
 
-	context.Request.Body = &projectmodels.Project{
-		ID: (*urlValues)["id"],
+	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{ID: id})
+	if perr != nil {
+		return &apimodels.Error{
+			Status:  http.StatusNotFound,
+			Error:   apierror.ProjectNotFound,
+			Message: "Project not found",
+		}
+	}
+
+	canView := permissiondal.CanSeeProject(context.Trazability.User, project)
+	if !canView {
+		return &apimodels.Error{
+			Status:  http.StatusForbidden,
+			Error:   apierror.AccessDenied,
+			Message: "Access denied: Cannot view project",
+		}
 	}
 
 	return nil

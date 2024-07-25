@@ -1,7 +1,7 @@
-github.com/akrck02/valhalla-api-common v0.0.11-20240725002213-dev h1:Fgieb+MCYSwVuPbxl1jJA4dqrHU9OI6HaUOtu5p92Nw=
-github.com/akrck02/valhalla-api-common v0.0.11-20240725002213-dev/go.mod h1:npsJqwQVrp8tv741bh+Mq9G9u7Jk21OBFrgx/h6N3RA=
-github.com/akrck02/valhalla-core-dal v0.0.15 h1:6SBl7SAPkGoi7LLZjWgjXesQZp0ohC4YP/mB+d+F6r4=
-github.com/akrck02/valhalla-core-dal v0.0.15/go.mod h1:2uo743OTIPdMF5py1iyhr8+g74Y2dh4j2vVLdLS4dHU=
+github.com/akrck02/valhalla-api-common v0.0.12-20240725214121-dev h1:Y+Z4L31aq9+2KMZST/r1tQ5qXNb35Ur1Qbp47vST5Eg=
+github.com/akrck02/valhalla-api-common v0.0.12-20240725214121-dev/go.mod h1:wUxot4rGdqI+JHSVj0Hd+fntFbdP3gS+sQdy8KrggUY=
+github.com/akrck02/valhalla-core-dal v0.0.16-20240725214636-dev h1:hQVpzsI0TzgsvA7cbs59pYBT5LMYttGjY3xcy+ZF4Go=
+github.com/akrck02/valhalla-core-dal v0.0.16-20240725214636-dev/go.mod h1:2uo743OTIPdMF5py1iyhr8+g74Y2dh4j2vVLdLS4dHU=
 github.com/akrck02/valhalla-core-sdk v0.0.15-20240724213518-dev h1:8QwZo6kub8azUT1jiwOle4DcDTbeHSCOgO8OHgIR2lw=
 github.com/akrck02/valhalla-core-sdk v0.0.15-20240724213518-dev/go.mod h1:qBovw83Vo/iXggXZS4ttcMqF9xFSR5ogu7G+RWh/jGg=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
