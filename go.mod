@@ -4,7 +4,7 @@ go 1.22
 
 require (
 	github.com/akrck02/valhalla-api-common v0.0.12-20240725214121-dev
-	github.com/akrck02/valhalla-core-dal v0.0.16-20240725214636-dev
+	github.com/akrck02/valhalla-core-dal v0.0.16-20240726220330-dev
 	github.com/akrck02/valhalla-core-sdk v0.0.15-20240724213518-dev
 )
 
