@@ -37,7 +37,7 @@ func DeleteProjectCheck(context *apimodels.ApiContext) *apimodels.Error {
 		return INVALID_REQUEST
 	}
 
-	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{ID: id})
+	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{Id: id})
 	if perr != nil {
 		return &apimodels.Error{
 			Status:  http.StatusNotFound,
@@ -98,7 +98,7 @@ func GetProjectCheck(context *apimodels.ApiContext) *apimodels.Error {
 		return INVALID_REQUEST
 	}
 
-	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{ID: id})
+	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{Id: id})
 	if perr != nil {
 		return &apimodels.Error{
 			Status:  http.StatusNotFound,

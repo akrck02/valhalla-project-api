@@ -1,9 +1,9 @@
-github.com/akrck02/valhalla-api-common v0.0.12-20240725214121-dev h1:Y+Z4L31aq9+2KMZST/r1tQ5qXNb35Ur1Qbp47vST5Eg=
-github.com/akrck02/valhalla-api-common v0.0.12-20240725214121-dev/go.mod h1:wUxot4rGdqI+JHSVj0Hd+fntFbdP3gS+sQdy8KrggUY=
-github.com/akrck02/valhalla-core-dal v0.0.16-20240726220330-dev h1:e6vXFvMvj2kLkHlp3gt2lx2u1P1FHGisqbC2FPz83vI=
-github.com/akrck02/valhalla-core-dal v0.0.16-20240726220330-dev/go.mod h1:2uo743OTIPdMF5py1iyhr8+g74Y2dh4j2vVLdLS4dHU=
-github.com/akrck02/valhalla-core-sdk v0.0.15-20240724213518-dev h1:8QwZo6kub8azUT1jiwOle4DcDTbeHSCOgO8OHgIR2lw=
-github.com/akrck02/valhalla-core-sdk v0.0.15-20240724213518-dev/go.mod h1:qBovw83Vo/iXggXZS4ttcMqF9xFSR5ogu7G+RWh/jGg=
+github.com/akrck02/valhalla-api-common v0.0.12-20240805110526-dev h1:E6yQRLgarr1ztl4lkr51GchmXJSQrXaGH91Z0TJ1APU=
+github.com/akrck02/valhalla-api-common v0.0.12-20240805110526-dev/go.mod h1:w+4q/3N1q5O/3y6utOMwBmp+kToNuDKJU0cYa+c2lfY=
+github.com/akrck02/valhalla-core-dal v0.0.16-20240805105915-dev h1:VI0+WDfKT7YB7tcJPnMwVIdpkFBlMLhiYwlB2y7DgwM=
+github.com/akrck02/valhalla-core-dal v0.0.16-20240805105915-dev/go.mod h1:bSCPGtabu8kyR3+/iIsfiVK8sNKGyvZAkJY4eHw5dqM=
+github.com/akrck02/valhalla-core-sdk v0.0.15-20240726224904-dev h1:Jmrin6Njq1JoEZ+YHWNpAZjTOU6OLfztqD5Vy2fjxVk=
+github.com/akrck02/valhalla-core-sdk v0.0.15-20240726224904-dev/go.mod h1:qBovw83Vo/iXggXZS4ttcMqF9xFSR5ogu7G+RWh/jGg=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/golang-jwt/jwt/v5 v5.2.1 h1:OuVbFODueb089Lh128TAcimifWaLhJwVflnrgM17wHk=

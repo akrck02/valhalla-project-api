@@ -70,7 +70,7 @@ func GetProject(context *apimodels.ApiContext) (*apimodels.Response, *apimodels.
 
 	id := context.Request.Params["id"]
 
-	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{ID: id})
+	project, perr := projectdal.GetProject(context.Database.Client, &projectmodels.Project{Id: id})
 	if perr != nil {
 		return nil, &apimodels.Error{
 			Status:  http.StatusBadRequest,
