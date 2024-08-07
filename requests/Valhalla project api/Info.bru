@@ -1,0 +1,11 @@
+meta {
+  name: Info
+  type: http
+  seq: 2
+}
+
+get {
+  url: http://{{valhalla.api.host}}:{{valhalla.api.project.port}}/{{valhalla.api.project}}/info
+  body: none
+  auth: none
+}
