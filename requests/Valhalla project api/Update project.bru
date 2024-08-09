@@ -17,8 +17,12 @@ headers {
 body:json {
   {
       "ID" : "669ad7735f32eb282160a898",
-      "name" : "Test project modified at {{$isoTimestamp}}",
-      "description" : "Project with a description modified here at {{$isoTimestamp}}",
+      "name" : "Test project modified at {{timestamp}}",
+      "description" : "Project with a description modified here at {{timestamp}}",
       "owner" : "{{valhalla.user.id}}"
   }
+}
+
+vars:pre-request {
+  timestamp: new Date()
 }
